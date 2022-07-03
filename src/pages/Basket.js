@@ -9,7 +9,7 @@ const Basket = () => {
         장바구니
     </ProductTitle>
     <GrayLine/>
-    <ProductTitle2>
+    <ProductBody>
       <BuyItem 
       item={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgNpEl93qfPAUwPhp36z1p3UCWEZboN8M7EvnbrAgR&s'}
       name={'지오지아 폴스퍼 스넉 다운3color'}
@@ -20,14 +20,14 @@ const Basket = () => {
       name={'지오지아 폴스퍼 스넉 다운3color'}
       price={'149,000원'}
       />
-    </ProductTitle2>
+    </ProductBody>
     <div style={{Width:'404',Height:'159', Top:'565', left:'-7'}}>
-      <div>상품금액 (1개) 599,000원</div>
-      <div>할인금액 -450,000원</div>
-      <div>배송비 0원</div>
-      <div style={{display:'flex'}}>총 주문금액 <div style={{color:'red'}}>149,000원</div></div>
+    <div style={{display:'flex'}}>상품금액(1개) <div style={{textAlign:'right',width:300}}>599,000원</div></div>
+      <div style={{display:'flex'}}>상품할인금액 <div style={{textAlign:'right',width:305}}>-450,000원</div></div>
+      <div style={{display:'flex'}}>배송비 <div style={{textAlign:'right',width:347}}>0원</div></div>
+      <div style={{display:'flex',}}>총 주문금액 <div style={{color:'red',textAlign:'right',width:315}}>149,000원</div></div>
     </div>
-    <SubmitButton></SubmitButton>
+    <SubmitButton name={'주문하기'}></SubmitButton>
     </div>
   );
 }
@@ -43,7 +43,7 @@ letter-spacing: 0em;
 text-align: center;
 
   `;
-  const ProductTitle2 = styled.div`
+  const ProductBody = styled.div`
 height: 226px;
 width: 390px;
 margin-bottom: 100px;

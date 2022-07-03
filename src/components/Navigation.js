@@ -7,7 +7,7 @@ const Navigation = ({name}) => {
 font-family: Noto Sans KR;
 font-size: 18px;
 font-weight: 700;
-line-height: 26.06px;
+line-height: 70.06px;
 letter-spacing: 0em;
 text-align: center;
 vertical-align: middle;

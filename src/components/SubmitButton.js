@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-const SubmitButton = () => {
+const SubmitButton = ({name}) => {
   return (
     <Button>
         <ButtonText >
-        주문하기
+        {name}
         </ButtonText>
     </Button>
   )
