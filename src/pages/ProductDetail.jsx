@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Navigation from "../components/Navigation";
 import { getProductDetail } from "../data/mockData";
 import SubmitButton from "../components/SubmitButton";
-import { comment } from "../data/comment";
+import { commentdata } from "../data/comment";
 import Comment from "../components/Comment";
 
 const ProductDetail = () => {
@@ -18,7 +18,8 @@ const ProductDetail = () => {
     const result = getProductDetail(productId);
     setProduct(result);
   }, []);
-
+  const buttonstyled = {display:'grid',alignItems:'center',flex:0.5};
+  const selectbutton = {backgroundColor:'#EEEEEE'};
   return (
     <ProductDetailStyled>
       <Navigation />
@@ -35,11 +36,10 @@ const ProductDetail = () => {
           <div style={{fontFamily: 'Noto Sans CJK KR',fontSize: 16,fontWeight: 400,lineHeight: 1,textAlign: 'left'}}>{product&& product.price}</div>
         </div>
         <div style={{width:390,height:48,display:'flex',textAlign:'center',justifyContent:'center'}}>
-          {/* <button style={{flex:0.5,backgroundColor:'#EEEEEE'}}>상품설명</button>
-          <button style={{flex:0.5,backgroundColor:'#FFFFFF'}}>상품후기</button> */}
-          {categories ? (
+          {
+          categories ? (
           categories.map((item,idx) => (
-            <button style={{flex:0.5}} key={idx} onClick={()=>{setCategoryIndex(idx)}}>{item}</button>
+            <div style={Object.assign({},buttonstyled,catergoryIndex===idx && selectbutton)} key={idx} onClick={()=>{setCategoryIndex(idx)}}>{item}</div>
           ))
         ) : (
           <div>없어용</div>
@@ -56,7 +56,7 @@ const ProductDetail = () => {
         : 
         <>
         {
-          comment.map((item,idx) => (
+          commentdata.map((item,idx) => (
             <>
               <Comment name={item.name} detail={item.detail} thumbnail={item.thumbnail}  grade={item.grade}/>
               <div style={{height:20}}></div>
@@ -85,6 +85,7 @@ left: 24px;
 top: 659px;
 border-radius: 0px;
 `;
+
 
 
 export default ProductDetail;

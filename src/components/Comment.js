@@ -6,7 +6,7 @@ const Comment = ({name,detail,thumbnail,grade}) => {
         <div style={{width:341,height:84,left:24,top:659,display:'flex',}}>
             <img src={thumbnail} width={50} height={50} alt={name}></img>
             <div style={{display:'flow'}}>
-            <div>{grade}</div>
+            <div style={{color:'black'}}>{grade}</div>
             <div>{name}</div>
             </div>
         </div>

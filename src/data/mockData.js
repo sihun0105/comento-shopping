@@ -35,6 +35,7 @@ export const mockTheme2Produdcts = [
     description: "점점 더워지는 여름, 소쿨 냉감 이불 덮고 주무세요",
     thumbnail:
       "https://raw.githubusercontent.com/congchu/coment-shop-server/master/assets/images/product4.jpg",
+      price:"21,800"
   },
   {
     id: 5,
