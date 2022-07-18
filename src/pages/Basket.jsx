@@ -1,71 +1,95 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import React from "react";
+import Navigation from "../components/Navigation";
+import BasketItem from "../components/BasketItem";
 import SubmitButton from "../components/SubmitButton";
-import BuyItem from "../components/BuyItem";
+import * as webStorage from "../utils/webStorage";
+
 const Basket = () => {
+  const [basketItems, setBasketItems] = useState();
+  const [basketItemCount, setBasketItemCount] = useState(0);
+  const [basketItemprice, setBasketItemprice] = useState(0);
+
+  const totalprice = (item) => {
+    const currentProduct = JSON.parse(JSON.stringify(item));
+    let price = 0;
+    for (var i = 0; i < item.length; i++) {
+      if (currentProduct[i] == null) {
+        console.log("null값 존재");
+        continue;
+      }
+      price = price + currentProduct[i].price;
+    }
+    return setBasketItemprice(price);
+  };
+  // Basket이 렌더링 될때, 한번만 실행되는 로직
+  useEffect(() => {
+    const items = webStorage.getBasketItems();
+    setBasketItems(items);
+    setBasketItemCount(items.length);
+    totalprice(items);
+    console.log(items);
+  }, []);
+
+  // [장바구니 상품 갯수]가 바뀌면, 실행되는 로직
+  useEffect(() => {
+    const items = webStorage.getBasketItems();
+    setBasketItems(items);
+    totalprice(items);
+  }, [basketItemCount]);
+
+  const onClickRemoveButton = (productId) => {
+    console.log("삭제");
+    webStorage.removeBasketItem(productId);
+    setBasketItemCount(basketItems.length - 1);
+  };
+
   return (
-    <div>
-      <ProductTitle>장바구니</ProductTitle>
-      <GrayLine />
-      <ProductBody>
-        <BuyItem
-          item={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgNpEl93qfPAUwPhp36z1p3UCWEZboN8M7EvnbrAgR&s"
-          }
-          name={"지오지아 폴스퍼 스넉 다운3color"}
-          price={"149,000원"}
-        />
-        <BuyItem
-          item={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgNpEl93qfPAUwPhp36z1p3UCWEZboN8M7EvnbrAgR&s"
-          }
-          name={"지오지아 폴스퍼 스넉 다운3color"}
-          price={"149,000원"}
-        />
-      </ProductBody>
-      <div style={{ Width: "404", Height: "159", Top: "565", left: "-7" }}>
-        <div style={{ display: "flex" }}>
-          상품금액(1개){" "}
-          <div style={{ textAlign: "right", width: 300 }}>599,000원</div>
-        </div>
-        <div style={{ display: "flex" }}>
-          상품할인금액{" "}
-          <div style={{ textAlign: "right", width: 305 }}>-450,000원</div>
-        </div>
-        <div style={{ display: "flex" }}>
-          배송비 <div style={{ textAlign: "right", width: 347 }}>0원</div>
-        </div>
-        <div style={{ display: "flex" }}>
-          총 주문금액{" "}
-          <div style={{ color: "red", textAlign: "right", width: 315 }}>
-            149,000원
-          </div>
-        </div>
-      </div>
-      <SubmitButton name={"주문하기"}></SubmitButton>
-    </div>
+    <BasketStyled>
+      <Navigation name="장바구니" hasBack={true} />
+
+      {basketItems &&
+        basketItems.map((product) => (
+          <BasketItem
+            key={product?.id}
+            id={product?.id}
+            thumbnail={product?.thumbnail}
+            name={product?.name}
+            price={product?.price}
+            onClickRemoveButton={() => onClickRemoveButton(product.id)}
+          />
+        ))}
+      <BasketSummary>
+        <Basketdetail>
+          <div>상품 금액({basketItemCount}개)</div>
+          <div>배송비</div>
+          <div>총 주문금액</div>
+        </Basketdetail>
+        <Basketdetail style={{ textAlign: "right" }}>
+          <div>{basketItemprice}원</div>
+          <div>0원</div>
+          <div>{basketItemprice}원</div>
+        </Basketdetail>
+      </BasketSummary>
+      <SubmitButton
+        name={"주문하기"}
+        onClick={() => {
+          alert("주문완료");
+        }}
+      />
+    </BasketStyled>
   );
 };
-const ProductTitle = styled.div`
-  height: 50px;
-  width: 390px;
 
-  font-family: Noto Sans KR;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 50px;
-  letter-spacing: 0em;
-  text-align: center;
+const BasketStyled = styled.div``;
+const BasketSummary = styled.div`
+  display: flex;
 `;
-const ProductBody = styled.div`
-  height: 226px;
-  width: 390px;
-  margin-bottom: 100px;
-`;
-const GrayLine = styled.div`
-  height: 1px;
-  width: 100%;
-  background: #eeeeee;
+const Basketdetail = styled.div`
+  padding: 16px;
+  margin: 10px 0px;
+  flex: 1;
 `;
 
 export default Basket;

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-const SubmitButton = ({ name }) => {
+const SubmitButton = ({ name, onClick }) => {
   return (
-    <Button>
+    <Button onClick={onClick}>
       <ButtonText>{name}</ButtonText>
     </Button>
   );

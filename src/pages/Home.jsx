@@ -21,9 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     // 1초 후, 상품 초기화
-    setTimeout(() => {
-      setProducts(mockTheme1Produdcts);
-    }, 1000);
+    setProducts(mockTheme1Produdcts);
   }, []);
 
   return (

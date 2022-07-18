@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../components/Navigation";
 import { getProductDetail } from "../data/mockData";
 import SubmitButton from "../components/SubmitButton";
 import { commentdata } from "../data/comment";
 import Comment from "../components/Comment";
+import * as webStorage from "../utils/webStorage";
 
 const ProductDetail = () => {
   // URL에서 paramter 변수(productId) 받아오는 로직
   let { productId } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState();
   const [catergoryIndex, setCategoryIndex] = useState(0);
   const categories = ["상품설명", "상품후기"];
@@ -17,7 +19,14 @@ const ProductDetail = () => {
   useEffect(() => {
     const result = getProductDetail(productId);
     setProduct(result);
-  }, [productId]);
+    console.log(product);
+  }, [productId, product]);
+
+  const onClickAddBasketButton = (product) => {
+    webStorage.addBasket(product);
+    navigate("/basket");
+  };
+
   const buttonstyled = { display: "grid", alignItems: "center", flex: 0.5 };
   const selectbutton = { backgroundColor: "#EEEEEE" };
   return (
@@ -57,7 +66,7 @@ const ProductDetail = () => {
             textAlign: "left",
           }}
         >
-          {product && product.price}
+          {product && product.price}원
         </div>
       </div>
       <div
@@ -89,20 +98,17 @@ const ProductDetail = () => {
           <div>없어용</div>
         )}
       </div>
-      {catergoryIndex === 0 ? (
+      {catergoryIndex === 0 ? ( //상품설명
         <>
-          <ProductDetailSection>
-            <img
-              Width="390"
-              Height="100%"
-              Top="3"
-              src={
-                "https://raw.githubusercontent.com/congchu/coment-shop-server/master/assets/images/product2.jpg"
-              }
-              alt={"asd"}
-            />
-          </ProductDetailSection>
-          <SubmitButton name={"장바구니추가"}></SubmitButton>
+          <ProductDetailImage
+            //Height="100%"
+            src={product && product.mainImage}
+            alt={"img"}
+          />
+          <SubmitButton
+            name={"장바구니추가"}
+            onClick={() => onClickAddBasketButton(product)}
+          ></SubmitButton>
         </>
       ) : (
         <>
@@ -117,7 +123,10 @@ const ProductDetail = () => {
               <div style={{ height: 20 }}></div>
             </>
           ))}
-          <SubmitButton name={"장바구니추가"}></SubmitButton>
+          <SubmitButton
+            name={"장바구니추가"}
+            onClick={() => onClickAddBasketButton(product)}
+          ></SubmitButton>
         </>
       )}
     </ProductDetailStyled>
@@ -130,12 +139,9 @@ const GrayLine = styled.div`
   width: 390;
   background: #eeeeee;
 `;
-const ProductDetailSection = styled.div`
-  height: 1188.2060546875px;
-  width: 342px;
-  left: 24px;
-  top: 659px;
-  border-radius: 0px;
+
+const ProductDetailImage = styled.img`
+  width: 390px;
 `;
 
 export default ProductDetail;
